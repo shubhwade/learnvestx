@@ -20,6 +20,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email and password required" }, { status: 400 });
     }
 
+    if (!email.toLowerCase().endsWith("@gmail.com")) {
+      return NextResponse.json({ error: "Only @gmail.com addresses are allowed" }, { status: 400 });
+    }
+
     // Check if user already exists
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
