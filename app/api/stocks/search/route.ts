@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+export const dynamic = 'force-dynamic';
+
 // Mock stock data - In production, use real API like Alpha Vantage or Yahoo Finance
 const MOCK_STOCKS = [
     { symbol: "AAPL", name: "Apple Inc.", price: 178.50, change: 2.34, changePercent: 1.33 },

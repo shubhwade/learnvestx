@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { checkAndUpdateChallenges } from "@/lib/challenges";
 import jwt from "jsonwebtoken";
 
+export const dynamic = 'force-dynamic';
+
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
 
 export async function POST(request: Request) {
