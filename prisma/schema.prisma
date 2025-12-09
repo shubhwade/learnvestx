@@ -1,0 +1,218 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int                 @id @default(autoincrement())
+  email            String              @unique
+  passwordHash     String
+  name             String?
+  totalPoints      Int                 @default(0)
+  portfolioValue   Decimal             @default(0) @db.Decimal(18, 2)
+  virtualBalance   Decimal             @default(100000) @db.Decimal(18, 2)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  holdings         Holding[]
+  stockTransactions StockTransaction[]
+  sipSimulations   SIPSimulation[]
+  challengeProgress ChallengeProgress[]
+  quizAttempts     QuizAttempt[]
+  certificates     Certificate[]
+  completedLessons CompletedLesson[]
+}
+
+model StockTransaction {
+  id          Int              @id @default(autoincrement())
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  stockSymbol String
+  price       Decimal          @db.Decimal(18, 6)
+  quantity    Int
+  type        TransactionType
+  timestamp   DateTime         @default(now())
+
+  @@index([userId, timestamp])
+}
+
+model Holding {
+  id          Int     @id @default(autoincrement())
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  stockSymbol String
+  quantity    Int
+  avgPrice    Decimal @db.Decimal(18, 6)
+
+  @@unique([userId, stockSymbol])
+}
+
+model SIPSimulation {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          Int
+  fundName        String
+  sipAmount       Decimal  @db.Decimal(18, 2)
+  durationMonths  Int
+  expectedReturn  Decimal  @db.Decimal(5, 2) // annual percentage
+  simulatedResult Json
+  createdAt       DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Lesson {
+  id            Int             @id @default(autoincrement())
+  title         String
+  category      LessonCategory
+  content       String
+  infographicURL String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  questions QuizQuestion[]
+  completions CompletedLesson[]
+
+  @@index([category])
+}
+
+model CaseStudy {
+  id            Int       @id @default(autoincrement())
+  title         String
+  content       String
+  chartsData    Json?
+  summaryPoints String[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Challenge {
+  id             Int                @id @default(autoincrement())
+  title          String
+  difficulty     ChallengeDifficulty
+  goalDescription String
+  rewardPoints   Int
+  durationDays   Int?
+  startDate      DateTime?
+  endDate        DateTime?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  progress ChallengeProgress[]
+}
+
+model ChallengeProgress {
+  id          Int          @id @default(autoincrement())
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  challenge   Challenge    @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  challengeId Int
+  status      ChallengeStatus @default(PENDING)
+  progress    Int          @default(0)
+  startedAt   DateTime?    @default(now())
+  completedAt DateTime?
+
+  @@unique([userId, challengeId])
+  @@index([challengeId])
+}
+
+model Quiz {
+  id               Int       @id @default(autoincrement())
+  title            String
+  category         String    @default("BEGINNER")
+  passingScore     Int
+  rewardCertificateURL String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  questions QuizQuestion[]
+  attempts  QuizAttempt[]
+
+  @@index([category])
+}
+
+model QuizQuestion {
+  id         Int      @id @default(autoincrement())
+  quiz       Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId     Int
+  lesson     Lesson?  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId   Int?
+  prompt     String
+  explanation String?
+  options    QuizOption[]
+}
+
+model QuizOption {
+  id          Int      @id @default(autoincrement())
+  question    QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId  Int
+  text        String
+  isCorrect   Boolean @default(false)
+}
+
+model QuizAttempt {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId    Int
+  score     Int
+  passed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  certificate Certificate?
+
+  @@index([userId, quizId])
+}
+
+model Certificate {
+  id             Int       @id @default(autoincrement())
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         Int
+  quizAttempt    QuizAttempt? @relation(fields: [quizAttemptId], references: [id], onDelete: SetNull)
+  quizAttemptId  Int? @unique
+  certificateId  String    @unique
+  name           String
+  dateIssued     DateTime  @default(now())
+  qrCodeUrl      String?
+  title          String    @default("FinSim Academy Certified Beginner Investor")
+}
+
+model CompletedLesson {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  lesson     Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId   Int
+  completedAt DateTime @default(now())
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+}
+
+enum TransactionType {
+  BUY
+  SELL
+}
+
+enum LessonCategory {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum ChallengeDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum ChallengeStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
