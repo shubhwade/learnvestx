@@ -14,8 +14,11 @@ import {
   PieChart,
   BarChart3,
   Activity,
-  Zap
+  Zap,
+  Sparkles
 } from "lucide-react";
+// import { MarketNews } from "@/components/ai/MarketNews";
+// import { PortfolioHealth } from "@/components/ai/PortfolioHealth";
 
 type DashboardData = {
   user: {
@@ -169,17 +172,27 @@ export default function DashboardPage() {
           </p>
           <h1 className="text-4xl font-bold mt-2">Dashboard</h1>
         </div>
-        <Link href="/dashboard/stocks">
-          <button className="px-6 py-3 bg-white text-black font-medium rounded-lg hover:bg-white/90 transition-colors flex items-center gap-2">
-            Start Trading <ArrowRight className="w-4 h-4" />
-          </button>
-        </Link>
+        <div className="flex gap-3">
+          <Link href="/dashboard/stocks">
+            <button className="px-6 py-3 bg-white text-black font-medium rounded-lg hover:bg-white/90 transition-colors flex items-center gap-2">
+              Start Trading <ArrowRight className="w-4 h-4" />
+            </button>
+          </Link>
+          <Link href="/dashboard/ai">
+            <button className="px-6 py-3 bg-white/10 border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-all flex items-center gap-2">
+              <Sparkles className="w-4 h-4" /> AI Features
+            </button>
+          </Link>
+        </div>
       </div>
 
-      {/* Stats Grid - 6 cards */}
+      {/* AI Market News */}
+      {/* <MarketNews /> */}
+
+      {/* Stats Grid - 6 cards (3 up, 3 down) */}
       <div className="grid gap-4 md:gap-6 grid-cols-2 lg:grid-cols-3">
         {/* Total Portfolio Value */}
-        <div className="col-span-2 lg:col-span-1 p-6 rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/10 to-transparent">
+        <div className="p-6 rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/10 to-transparent">
           <div className="flex items-center justify-between mb-4">
             <span className="text-sm text-white/50">Total Portfolio</span>
             <PieChart className="w-5 h-5 text-blue-400" />

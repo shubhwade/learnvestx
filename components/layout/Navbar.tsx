@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -15,10 +16,14 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-finsim-primary to-finsim-hover text-white font-bold">
-              FS
-            </div>
-            <span className="font-bold text-finsim-primary hidden sm:inline">FinSim Academy</span>
+            <Image
+              src="/images/logo.png"
+              alt="LearnVestX"
+              width={160}
+              height={40}
+              className="h-10 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

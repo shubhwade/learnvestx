@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { api } from "./api";
+import posthog from "posthog-js";
 
 type User = {
   id: number;
@@ -32,7 +33,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (token) {
       api.auth
         .me()
-        .then(setUser)
+        .then((userData) => {
+          setUser(userData);
+          posthog.identify(userData.id.toString(), {
+            email: userData.email,
+            name: userData.name
+          });
+        })
         .catch(() => {
           localStorage.removeItem("accessToken");
         })
@@ -46,6 +53,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await api.auth.login(email, password);
     const userData = await api.auth.me();
     setUser(userData);
+    posthog.identify(userData.id.toString(), {
+      email: userData.email,
+      name: userData.name
+    });
   };
 
   const signup = async (email: string, password: string, name?: string) => {
@@ -56,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     localStorage.removeItem("accessToken");
     setUser(null);
+    posthog.reset();
     window.location.href = "/login";
   };
 

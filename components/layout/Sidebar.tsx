@@ -13,6 +13,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navItems = [
@@ -41,10 +42,15 @@ export function Sidebar({ className }: SidebarProps) {
         className
       )}
     >
-      <Link href="/" className="mb-8 flex items-center gap-3">
-        <div className="text-xl font-bold">
-          LearnVestX
-        </div>
+      <Link href="/" className="mb-8 block">
+        <Image
+          src="/images/logo.png"
+          alt="LearnVestX"
+          width={180}
+          height={40}
+          className="h-10 w-auto object-contain bg-black"
+          priority
+        />
       </Link>
 
       <nav className="space-y-1 flex-1">
