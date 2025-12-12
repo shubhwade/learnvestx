@@ -163,24 +163,24 @@ export default function DashboardPage() {
   const isNewUser = holdings.length === 0 && recentTransactions.length === 0;
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6 md:space-y-10">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
         <div>
-          <p className="text-sm text-white/50">
+          <p className="text-xs md:text-sm text-white/50">
             Welcome back{data.user.name ? `, ${data.user.name}` : ""}
           </p>
-          <h1 className="text-4xl font-bold mt-2">Dashboard</h1>
+          <h1 className="text-2xl md:text-4xl font-bold mt-1 md:mt-2">Dashboard</h1>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-2 md:gap-3">
           <Link href="/dashboard/stocks">
-            <button className="px-6 py-3 bg-white text-black font-medium rounded-lg hover:bg-white/90 transition-colors flex items-center gap-2">
-              Start Trading <ArrowRight className="w-4 h-4" />
+            <button className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white text-black font-medium rounded-lg hover:bg-white/90 transition-colors flex items-center gap-2">
+              Start Trading <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
             </button>
           </Link>
           <Link href="/dashboard/ai">
-            <button className="px-6 py-3 bg-white/10 border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-all flex items-center gap-2">
-              <Sparkles className="w-4 h-4" /> AI Features
+            <button className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-all flex items-center gap-2">
+              <Sparkles className="w-3 h-3 md:w-4 md:h-4" /> AI Features
             </button>
           </Link>
         </div>
@@ -189,69 +189,69 @@ export default function DashboardPage() {
       {/* AI Market News */}
       {/* <MarketNews /> */}
 
-      {/* Stats Grid - 6 cards (3 up, 3 down) */}
-      <div className="grid gap-4 md:gap-6 grid-cols-2 lg:grid-cols-3">
+      {/* Stats Grid - 6 cards (2 cols on mobile, 3 on desktop) */}
+      <div className="grid gap-3 md:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-3">
         {/* Total Portfolio Value */}
-        <div className="p-6 rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/10 to-transparent">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-white/50">Total Portfolio</span>
-            <PieChart className="w-5 h-5 text-blue-400" />
+        <div className="p-4 md:p-6 rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/10 to-transparent">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <span className="text-xs md:text-sm text-white/50">Total Portfolio</span>
+            <PieChart className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
           </div>
-          <p className="text-2xl font-bold text-white">{formatCurrency(portfolio.totalValue)}</p>
-          <div className={`flex items-center gap-1 mt-2 text-sm ${portfolio.pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-            {portfolio.pnl >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+          <p className="text-lg md:text-2xl font-bold text-white">{formatCurrency(portfolio.totalValue)}</p>
+          <div className={`flex items-center gap-1 mt-1 md:mt-2 text-xs md:text-sm ${portfolio.pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            {portfolio.pnl >= 0 ? <TrendingUp className="w-3 h-3 md:w-4 md:h-4" /> : <TrendingDown className="w-3 h-3 md:w-4 md:h-4" />}
             <span>{portfolio.pnl >= 0 ? '+' : ''}{formatCurrency(portfolio.pnl)} ({portfolio.pnlPercent}%)</span>
           </div>
         </div>
 
         {/* Available Cash */}
-        <div className="p-6 rounded-xl border border-white/10 bg-white/5">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-white/50">Available Cash</span>
-            <Wallet className="w-5 h-5 text-green-400" />
+        <div className="p-4 md:p-6 rounded-xl border border-white/10 bg-white/5">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <span className="text-xs md:text-sm text-white/50">Available Cash</span>
+            <Wallet className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
           </div>
-          <p className="text-2xl font-bold text-white">{formatCurrency(portfolio.availableCash)}</p>
-          <p className="text-sm text-white/40 mt-2">Ready to invest</p>
+          <p className="text-lg md:text-2xl font-bold text-white">{formatCurrency(portfolio.availableCash)}</p>
+          <p className="text-xs md:text-sm text-white/40 mt-1 md:mt-2">Ready to invest</p>
         </div>
 
         {/* Invested Value */}
-        <div className="p-6 rounded-xl border border-white/10 bg-white/5">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-white/50">Invested</span>
-            <BarChart3 className="w-5 h-5 text-purple-400" />
+        <div className="p-4 md:p-6 rounded-xl border border-white/10 bg-white/5">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <span className="text-xs md:text-sm text-white/50">Invested</span>
+            <BarChart3 className="w-4 h-4 md:w-5 md:h-5 text-purple-400" />
           </div>
-          <p className="text-2xl font-bold text-white">{formatCurrency(portfolio.investedValue)}</p>
-          <p className="text-sm text-white/40 mt-2">{portfolio.holdingsCount} stocks</p>
+          <p className="text-lg md:text-2xl font-bold text-white">{formatCurrency(portfolio.investedValue)}</p>
+          <p className="text-xs md:text-sm text-white/40 mt-1 md:mt-2">{portfolio.holdingsCount} stocks</p>
         </div>
 
         {/* Total Points */}
-        <div className="p-6 rounded-xl border border-white/10 bg-white/5">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-white/50">Points</span>
-            <Trophy className="w-5 h-5 text-yellow-400" />
+        <div className="p-4 md:p-6 rounded-xl border border-white/10 bg-white/5">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <span className="text-xs md:text-sm text-white/50">Points</span>
+            <Trophy className="w-4 h-4 md:w-5 md:h-5 text-yellow-400" />
           </div>
-          <p className="text-2xl font-bold text-white">{formatNumber(data.user.totalPoints)}</p>
-          <p className="text-sm text-white/40 mt-2">From challenges</p>
+          <p className="text-lg md:text-2xl font-bold text-white">{formatNumber(data.user.totalPoints)}</p>
+          <p className="text-xs md:text-sm text-white/40 mt-1 md:mt-2">From challenges</p>
         </div>
 
         {/* Lessons Completed */}
-        <div className="p-6 rounded-xl border border-white/10 bg-white/5">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-white/50">Lessons</span>
-            <BookOpen className="w-5 h-5 text-blue-400" />
+        <div className="p-4 md:p-6 rounded-xl border border-white/10 bg-white/5">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <span className="text-xs md:text-sm text-white/50">Lessons</span>
+            <BookOpen className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
           </div>
-          <p className="text-2xl font-bold text-white">{stats.lessonsCompleted}</p>
-          <p className="text-sm text-white/40 mt-2">Completed</p>
+          <p className="text-lg md:text-2xl font-bold text-white">{stats.lessonsCompleted}</p>
+          <p className="text-xs md:text-sm text-white/40 mt-1 md:mt-2">Completed</p>
         </div>
 
         {/* Challenges */}
-        <div className="p-6 rounded-xl border border-white/10 bg-white/5">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-white/50">Challenges</span>
-            <Target className="w-5 h-5 text-orange-400" />
+        <div className="p-4 md:p-6 rounded-xl border border-white/10 bg-white/5">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
+            <span className="text-xs md:text-sm text-white/50">Challenges</span>
+            <Target className="w-4 h-4 md:w-5 md:h-5 text-orange-400" />
           </div>
-          <p className="text-2xl font-bold text-white">{stats.challengesCompleted}</p>
-          <p className="text-sm text-white/40 mt-2">Completed</p>
+          <p className="text-lg md:text-2xl font-bold text-white">{stats.challengesCompleted}</p>
+          <p className="text-xs md:text-sm text-white/40 mt-1 md:mt-2">Completed</p>
         </div>
       </div>
 
@@ -337,15 +337,17 @@ export default function DashboardPage() {
                   </thead>
                   <tbody>
                     {holdings.map((h) => (
-                      <tr key={h.symbol} className="border-t border-white/5 hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-semibold">{h.symbol}</td>
-                        <td className="px-6 py-4 text-right text-white/60">{h.quantity}</td>
-                        <td className="px-6 py-4 text-right text-white/60">{formatCurrency(h.avgPrice)}</td>
-                        <td className="px-6 py-4 text-right">{formatCurrency(h.currentPrice)}</td>
-                        <td className="px-6 py-4 text-right font-medium">{formatCurrency(h.value)}</td>
-                        <td className={`px-6 py-4 text-right font-semibold ${h.pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                          {h.pnl >= 0 ? '+' : ''}{formatCurrency(h.pnl)} ({h.pnlPercent.toFixed(2)}%)
-                        </td>
+                      <tr key={h.symbol} className="border-t border-white/5 hover:bg-white/10 transition-colors cursor-pointer">
+                        <Link href={`/dashboard/stocks?symbol=${h.symbol}`} className="contents">
+                          <td className="px-6 py-4 font-semibold">{h.symbol}</td>
+                          <td className="px-6 py-4 text-right text-white/60">{h.quantity}</td>
+                          <td className="px-6 py-4 text-right text-white/60">{formatCurrency(h.avgPrice)}</td>
+                          <td className="px-6 py-4 text-right">{formatCurrency(h.currentPrice)}</td>
+                          <td className="px-6 py-4 text-right font-medium">{formatCurrency(h.value)}</td>
+                          <td className={`px-6 py-4 text-right font-semibold ${h.pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                            {h.pnl >= 0 ? '+' : ''}{formatCurrency(h.pnl)} ({h.pnlPercent.toFixed(2)}%)
+                          </td>
+                        </Link>
                       </tr>
                     ))}
                   </tbody>

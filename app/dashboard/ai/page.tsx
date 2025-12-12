@@ -269,40 +269,40 @@ export default function AIFeaturesPage() {
     if (!user) return null;
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
             {/* Header */}
-            <div className="flex items-center gap-4">
-                <Link href="/dashboard" className="p-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition">
-                    <ArrowLeft className="w-5 h-5" />
+            <div className="flex items-center gap-3 md:gap-4">
+                <Link href="/dashboard" className="p-1.5 md:p-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition">
+                    <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-bold flex items-center gap-2">
-                        <Sparkles className="w-7 h-7 text-purple-400" /> AI Features
+                    <h1 className="text-xl md:text-3xl font-bold flex items-center gap-2">
+                        <Sparkles className="w-5 h-5 md:w-7 md:h-7 text-purple-400" /> AI Features
                     </h1>
-                    <p className="text-white/50 text-sm">Connected to your real portfolio</p>
+                    <p className="text-white/50 text-xs md:text-sm">Connected to your real portfolio</p>
                 </div>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
                 {/* Dr. Finance Chatbot */}
-                <div className="lg:row-span-2 flex flex-col h-[500px] rounded-xl border border-white/10 bg-white/5 overflow-hidden">
-                    <div className="p-4 border-b border-white/10 flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                            <Bot className="w-6 h-6" />
+                <div className="lg:row-span-2 flex flex-col h-[60vh] md:h-[500px] rounded-xl border border-white/10 bg-white/5 overflow-hidden">
+                    <div className="p-3 md:p-4 border-b border-white/10 flex items-center gap-2 md:gap-3">
+                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                            <Bot className="w-5 h-5 md:w-6 md:h-6" />
                         </div>
                         <div>
-                            <h3 className="font-semibold">Dr. Finance</h3>
-                            <p className="text-xs text-green-400 flex items-center gap-1">
+                            <h3 className="text-sm md:text-base font-semibold">Dr. Finance</h3>
+                            <p className="text-[10px] md:text-xs text-green-400 flex items-center gap-1">
                                 <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
                                 {dataLoading ? "Loading data..." : `Connected (${data?.holdings.length || 0} stocks)`}
                             </p>
                         </div>
                     </div>
 
-                    <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+                    <div ref={scrollRef} className="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 md:space-y-4">
                         {messages.map((m) => (
                             <div key={m.id} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                                <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${m.role === "user" ? "bg-blue-600 rounded-tr-none" : "bg-white/10 rounded-tl-none border border-white/5"
+                                <div className={`max-w-[85%] px-3 md:px-4 py-2 md:py-3 rounded-2xl text-xs md:text-sm ${m.role === "user" ? "bg-blue-600 rounded-tr-none" : "bg-white/10 rounded-tl-none border border-white/5"
                                     }`}>
                                     {m.content.split('\n').map((line, i) => (
                                         <p key={i} className="mb-1 last:mb-0">
@@ -313,7 +313,7 @@ export default function AIFeaturesPage() {
                             </div>
                         ))}
                         {isTyping && (
-                            <div className="flex gap-2 bg-white/10 w-fit px-4 py-3 rounded-2xl rounded-tl-none">
+                            <div className="flex gap-2 bg-white/10 w-fit px-3 md:px-4 py-2 md:py-3 rounded-2xl rounded-tl-none">
                                 <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
                                 <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
                                 <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce" />
@@ -321,75 +321,75 @@ export default function AIFeaturesPage() {
                         )}
                     </div>
 
-                    <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 bg-white/5">
+                    <form onSubmit={handleSubmit} className="p-3 md:p-4 border-t border-white/10 bg-white/5">
                         <div className="relative flex items-center">
                             <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask about your portfolio..."
-                                className="w-full bg-white/5 border border-white/10 text-white text-sm rounded-xl pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder:text-white/30" />
+                                className="w-full bg-white/5 border border-white/10 text-white text-xs md:text-sm rounded-xl pl-3 md:pl-4 pr-10 md:pr-12 py-2 md:py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 placeholder:text-white/30" />
                             <button type="submit" disabled={isTyping || !input.trim()}
-                                className="absolute right-2 p-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg disabled:opacity-50 transition">
-                                <Send className="w-4 h-4" />
+                                className="absolute right-1.5 md:right-2 p-1.5 md:p-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg disabled:opacity-50 transition">
+                                <Send className="w-3 h-3 md:w-4 md:h-4" />
                             </button>
                         </div>
                     </form>
                 </div>
 
                 {/* Market News - Based on actual holdings */}
-                <div className="p-6 rounded-xl border border-white/10 bg-white/5">
-                    <div className="flex items-center justify-between mb-4">
+                <div className="p-4 md:p-6 rounded-xl border border-white/10 bg-white/5">
+                    <div className="flex items-center justify-between mb-3 md:mb-4">
                         <div className="flex items-center gap-2">
-                            <Newspaper className="w-5 h-5 text-blue-400" />
-                            <span className="text-sm text-white/50">Your Stock News</span>
+                            <Newspaper className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
+                            <span className="text-xs md:text-sm text-white/50">Your Stock News</span>
                         </div>
                         {dataLoading ? (
-                            <Loader2 className="w-4 h-4 animate-spin text-white/30" />
+                            <Loader2 className="w-3 h-3 md:w-4 md:h-4 animate-spin text-white/30" />
                         ) : (
                             <span className="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/20">
                                 Live
                             </span>
                         )}
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-2 md:space-y-3">
                         {headlines.length > 0 ? headlines.map((news) => (
-                            <div key={news.id} className="flex items-start gap-3">
+                            <div key={news.id} className="flex items-start gap-2 md:gap-3">
                                 <div className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${news.sentiment === 'positive' ? 'bg-green-400' : news.sentiment === 'negative' ? 'bg-red-400' : 'bg-gray-400'}`} />
                                 <div>
-                                    <p className="text-sm text-white/80">{news.text}</p>
-                                    <div className="flex items-center gap-1 mt-1">
-                                        <span className="text-xs text-white/40">{news.relatedStock}</span>
+                                    <p className="text-xs md:text-sm text-white/80">{news.text}</p>
+                                    <div className="flex items-center gap-1 mt-0.5 md:mt-1">
+                                        <span className="text-[10px] md:text-xs text-white/40">{news.relatedStock}</span>
                                         {news.sentiment === 'positive' && <TrendingUp className="w-3 h-3 text-green-400" />}
                                         {news.sentiment === 'negative' && <TrendingDown className="w-3 h-3 text-red-400" />}
                                     </div>
                                 </div>
                             </div>
                         )) : (
-                            <p className="text-sm text-white/40">Start trading to see personalized news!</p>
+                            <p className="text-xs md:text-sm text-white/40">Start trading to see personalized news!</p>
                         )}
                     </div>
                 </div>
 
                 {/* Portfolio Health - Based on real data */}
-                <div className="p-6 rounded-xl border border-white/10 bg-white/5">
-                    <div className="flex items-center justify-between mb-4">
+                <div className="p-4 md:p-6 rounded-xl border border-white/10 bg-white/5">
+                    <div className="flex items-center justify-between mb-3 md:mb-4">
                         <div className="flex items-center gap-2">
-                            <Activity className="w-5 h-5 text-purple-400" />
-                            <span className="text-sm text-white/50">Portfolio Health</span>
+                            <Activity className="w-4 h-4 md:w-5 md:h-5 text-purple-400" />
+                            <span className="text-xs md:text-sm text-white/50">Portfolio Health</span>
                         </div>
                         {dataLoading ? (
-                            <Loader2 className="w-4 h-4 animate-spin text-white/30" />
+                            <Loader2 className="w-3 h-3 md:w-4 md:h-4 animate-spin text-white/30" />
                         ) : (
                             <span className="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/20">
                                 Analyzed
                             </span>
                         )}
                     </div>
-                    <div className="flex items-center gap-6">
-                        <div className={`text-5xl font-bold ${getScoreColor(healthData.score)}`}>{healthData.score}</div>
+                    <div className="flex items-center gap-4 md:gap-6">
+                        <div className={`text-3xl md:text-5xl font-bold ${getScoreColor(healthData.score)}`}>{healthData.score}</div>
                         <div>
-                            <span className={`px-3 py-1 rounded-full text-xs font-medium border ${healthData.riskLevel === 'Low' ? 'border-green-500/30 text-green-400 bg-green-500/10' :
-                                    healthData.riskLevel === 'Moderate' ? 'border-yellow-500/30 text-yellow-400 bg-yellow-500/10' :
-                                        'border-red-500/30 text-red-400 bg-red-500/10'
+                            <span className={`px-2 md:px-3 py-0.5 md:py-1 rounded-full text-[10px] md:text-xs font-medium border ${healthData.riskLevel === 'Low' ? 'border-green-500/30 text-green-400 bg-green-500/10' :
+                                healthData.riskLevel === 'Moderate' ? 'border-yellow-500/30 text-yellow-400 bg-yellow-500/10' :
+                                    'border-red-500/30 text-red-400 bg-red-500/10'
                                 }`}>{healthData.riskLevel} Risk</span>
-                            <p className="text-sm text-white/60 mt-2">{healthData.verdict}</p>
+                            <p className="text-xs md:text-sm text-white/60 mt-1 md:mt-2">{healthData.verdict}</p>
                         </div>
                     </div>
                 </div>

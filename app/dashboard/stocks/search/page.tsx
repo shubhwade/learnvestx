@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { api } from "@/lib/api";
 import Link from "next/link";
@@ -26,6 +26,7 @@ type Quote = {
 export default function StockSearchTradePage() {
   const { user, refreshUser } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
@@ -43,6 +44,15 @@ export default function StockSearchTradePage() {
       .then(data => setStocks(data.stocks || []))
       .catch(console.error);
   }, []);
+
+  // Auto-select stock from URL parameter
+  useEffect(() => {
+    const symbolParam = searchParams.get('symbol');
+    if (symbolParam && stocks.length > 0) {
+      setSelectedSymbol(symbolParam);
+      setSearchQuery(symbolParam); // Also update search to show the stock
+    }
+  }, [searchParams, stocks]);
 
   // Fetch quote when stock selected
   useEffect(() => {
